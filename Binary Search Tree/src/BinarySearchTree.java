@@ -130,10 +130,6 @@ public class BinarySearchTree<E extends Comparable<E>> {
         return maxValue(n.right);
     }
 
-    /*
-     * ASSIGNMENT METHODS: Implement the methods below.
-     */
-
     /**
      * Given a value that is stored in this BST, this method returns the
      * corresponding Node that holds it, or null if the value is null or does
@@ -267,21 +263,9 @@ public class BinarySearchTree<E extends Comparable<E>> {
         return Math.max(leftHeight, rightHeight) + 1;
     }
 
-    /**
-     * OPTIONAL CHALLENGE: Produces the same result as isBalanced() but does so
-     * in O(n) time.
-     * 
-     * Ungraded. Do not attempt until after you have a working isBalanced() for
-     * grading.
-     * 
-     * @return True only if the entire tree is balanced
-     */
+
+
     public boolean isBalancedFast() {
-        /*
-        Note: same implementation as isBalanced() because that is O(n).
-        We call checkBalance(Node n) method recursively, starting at the root and traverse each node of the tree only once.
-        For each node, we do a fixed amount of work at O(1) efficiency. Leading to O(n) efficiency, with n = the number of nodes in the tree.
-         */
         return checkBalance(root) != -1;
     }
 }

@@ -7,7 +7,7 @@ public class NestingChecker {
     @SuppressWarnings("unused")
     private static final long serialVersionUID = 123674589918L;
 
-   
+
     public static NestingReport checkNesting(Queue<? extends Nestable> elements) {
         // if the queue is null, return null_input status
         if (elements == null) {
