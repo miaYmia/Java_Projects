@@ -7,13 +7,7 @@ public class NestingChecker {
     @SuppressWarnings("unused")
     private static final long serialVersionUID = 123674589918L;
 
-    /**
-     * TODO Implement this method!
-     * Takes a nullable Queue of nullable elements and calculates its nesting status
-     *
-     * @param elements Nullable Queue of nullable Nestable elements
-     * @return Non-null NestingReport describing the exact nesting status of the queue
-     */
+   
     public static NestingReport checkNesting(Queue<? extends Nestable> elements) {
         // if the queue is null, return null_input status
         if (elements == null) {
