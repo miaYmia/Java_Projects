@@ -1,17 +1,3 @@
-/*
- * I attest that the code in this file is entirely my own except for the starter
- * code provided with the assignment and the following exceptions:
- * <Enter all external resources and collaborations here. Note external code may
- * reduce your score but appropriate citation is required to avoid academic
- * integrity violations. Please see the Course Syllabus as well as the
- * university code of academic integrity:
- *  https://catalog.upenn.edu/pennbook/code-of-academic-integrity/ >
- * Signed,
- * Author: YOUR NAME HERE
- * Penn email: <YOUR-EMAIL-HERE@seas.upenn.edu>
- * Date: YYYY-MM-DD
- */
-
 public class BinarySearchTree<E extends Comparable<E>> {
     @SuppressWarnings("unused")
     private static final long serialVersionUID = 29384723897L;
