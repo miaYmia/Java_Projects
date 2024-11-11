@@ -1,90 +1,45 @@
-/**
- * This nestable class was written to honor the famous impressionist programmer
- * Vint Van Nest.
- * <p>
- * The impressionist school believes in beauty through
- * distilling the essence of an object instead of focusing on unimportant
- * details.
- * <p>
- * Be careful working with these objects, the distortion of expectations may
- * prove hazardous.  Only through the methods of the Nestable interface will
- * you reliably reach truth.
- **/
 public class VanNest extends Nestable {
 
-    @SuppressWarnings("unused")
-    private static final long serialVersionUID = 1018530330L;
+    private final Object unimportantDetail;  // Arbitrary detail stored in this instance
 
-    /* Seek not the secrets of the depths. */
-    private final Object unimportantDetail;
-
-    /**
-     * A stroke of the brush upon the heap.
-     **/
+    // Constructor initializes the unimportant detail and assigns the nesting effect
     public VanNest(Object detail, NestEffect effect) {
         super(effect);
         unimportantDetail = detail;
     }
 
-    /**
-     * Seek an essential truth.
-     **/
+    // Checks if this VanNest instance matches another based on effect and detail
     @Override
     public boolean matches(Nestable other) {
-        if (!(other instanceof VanNest))
-            /* Has it succumb to the void? */
-            return false;
-
-        if (!this.effect.matches(other.effect))
-            /* Like a sunflower on a starry night */
-            return false;
+        if (!(other instanceof VanNest)) return false;    // Must be of the same type
+        if (!this.effect.matches(other.effect)) return false;   // Effects must be compatible
 
         Object otherDetail = ((VanNest) other).unimportantDetail;
-        if (unimportantDetail == otherDetail)
-            return true;
 
-        if (unimportantDetail == null)
-            /* Abandon all hope */
-            return false;
-
-        /* Leave the rest to fate */
-        return unimportantDetail.equals(otherDetail);
+        // Checks for matching detail, allowing for null values
+        if (unimportantDetail == otherDetail) return true;
+        return unimportantDetail != null && unimportantDetail.equals(otherDetail);
     }
 
-    /**
-     * This method provides a simple nugget of enlightenment.
-     **/
+    // Provides a default string representation
+    @Override
     public String toString() {
         return "Truth is binary.";
     }
 
-    /**
-     * All of life is but a simple hash, therefore all hashes are but nil.
-     **/
+    // Returns a constant hash code, indicating intentional disregard for hash uniqueness
+    @Override
     public int hashCode() {
         return 0;
     }
 
-    /**
-     * No object is truly equal to another, perhaps not even to itself.
-     **/
+    // Custom equality check based on the unimportant detail
     @Override
     protected boolean innerEquals(Object other) {
-        if (!(other instanceof VanNest))
-            /* Has it succumb to the void? */
-            return false;
+        if (!(other instanceof VanNest)) return false;
 
         VanNest vanOther = (VanNest) other;
-
-        if (unimportantDetail == vanOther.unimportantDetail)
-            /* A self portrait or a mirror? */
-            return true;
-
-        if (unimportantDetail == null)
-            /* The void approaches */
-            return false;
-
-        /* A stroke of fate */
-        return unimportantDetail.equals(vanOther.unimportantDetail);
+        if (unimportantDetail == vanOther.unimportantDetail) return true;
+        return unimportantDetail != null && unimportantDetail.equals(vanOther.unimportantDetail);
     }
 }

@@ -1,64 +1,65 @@
 import java.util.Objects;
 import java.util.Stack;
 
-/**
- * NestingReport indicates whether the input was correctly nested (valid) and
- * additional state to provide details when the input is not valid.
- */
 public class NestingReport {
-    @SuppressWarnings("unused")
-    private static final long serialVersionUID = 679233489923471L;
 
+    // Enumeration representing the various possible states of a nesting report
     public enum Status {
         VALID, NULL_INPUT, NULL_ITEM, INVALID_CLOSE, NOT_TERMINATED
     }
 
-    private final Status status; // non-nullable
-    private final Nestable badItem; // nullable
-    private final Stack<? extends Nestable> stackState; // nullable
+    // The final status of the nesting check (non-nullable)
+    private final Status status;
 
-    /**
-     * Constructs an immutable NestingReport, a data class, using the given parameters
-     *
-     * @param status     One of VALID, NULL_INPUT, NULL_ITEM, INVALID_CLOSE, or NOT_TERMINATED
-     * @param badItem    If status is INVALID_CLOSE, badItem is the Nestable item that attempted to perform the invalid
-     *                   closing; if status is anything else, set to null
-     * @param stackState The current state of the stack at the moment of generating this report (if applicable: not
-     *                   including the badItem). Do not set to null.
-     */
+    // Item that caused an error in case of an invalid closing operation (nullable)
+    private final Nestable badItem;
+
+    // Current state of the stack at the time of report generation (nullable)
+    private final Stack<? extends Nestable> stackState;
+
+    // Constructor initializes the nesting report with a specific status, an optional bad item, and stack state
     public NestingReport(Status status, Nestable badItem, Stack<? extends Nestable> stackState) {
+        // Ensure the status is not null to avoid null-related issues
         if (status == null)
-            throw new IllegalArgumentException("null enum supplied as argument to NestingReport");
+            throw new IllegalArgumentException("Status cannot be null");
         this.status = status;
         this.badItem = badItem;
         this.stackState = stackState;
     }
 
+    // Returns the status of the nesting report
     public Status getStatus() {
         return status;
     }
 
+    // Returns the problematic item if the status is INVALID_CLOSE; otherwise, returns null
     public Nestable getBadItem() {
         return badItem;
     }
 
+    // Returns the stack state at the time the report was created
     public Stack<? extends Nestable> getStackState() {
         return stackState;
     }
 
+    // Checks equality based on status, bad item, and stack state
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         NestingReport that = (NestingReport) o;
-        return status == that.status && Objects.equals(badItem, that.badItem) && Objects.equals(stackState, that.stackState);
+        return status == that.status &&
+                Objects.equals(badItem, that.badItem) &&
+                Objects.equals(stackState, that.stackState);
     }
 
+    // Generates a hash code based on the status, bad item, and stack state
     @Override
     public int hashCode() {
         return Objects.hash(status, badItem, stackState);
     }
 
+    // Provides a string representation of the NestingReport, showing the status, bad item, and stack state
     @Override
     public String toString() {
         return "NestingReport{" +

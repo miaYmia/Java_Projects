@@ -3,93 +3,76 @@ import java.io.IOException;
 import java.util.*;
 
 public class NestableCharacter extends Nestable {
-    @SuppressWarnings("unused")
-    private static final long serialVersionUID = 184829138437L;
 
+    // Define syntax pairs for nesting characters (e.g., parentheses, brackets)
     private static final char[][] syntaxPairs = {{'(', ')'}, {'[', ']'}, {'{', '}'}};
     private static final Map<Character, Character> mSyntaxPairs = new HashMap<>();
     private static final Map<Character, NestEffect> charType = new HashMap<>();
 
-    /*
-     * populate the lookup tables for pairing and effects
-     */
+    // Populate the lookup tables for character pairing and nesting effects
     static {
         for (char[] pair : syntaxPairs) {
-            charType.put(pair[0], NestEffect.OPEN);
-            charType.put(pair[1], NestEffect.CLOSE);
-            mSyntaxPairs.put(pair[0], pair[1]);
-            mSyntaxPairs.put(pair[1], pair[0]);
+            charType.put(pair[0], NestEffect.OPEN);    // Assign OPEN effect to opening characters
+            charType.put(pair[1], NestEffect.CLOSE);   // Assign CLOSE effect to closing characters
+            mSyntaxPairs.put(pair[0], pair[1]);        // Map each opening character to its closing pair
+            mSyntaxPairs.put(pair[1], pair[0]);        // Map each closing character to its opening pair
         }
     }
 
-    /**
-     * The character value represented by this NestableCharacter
-     */
+    // The specific character value represented by this NestableCharacter instance
     final char value;
 
-    /**
-     * Constructs an immutable NestableCharacter whose value is initialized to c and whose nesting effect
-     * is initialized to OPEN if it's one of ([{, CLOSE if it's one of )]}, otherwise NEUTRAL
-     *
-     * @param c The character to be represented by this NestableCharacter
-     */
+    // Constructor initializes a NestableCharacter with a character and assigns its nesting effect
     public NestableCharacter(char c) {
-        super(charType.getOrDefault(c, NestEffect.NEUTRAL));
+        super(charType.getOrDefault(c, NestEffect.NEUTRAL));  // Default to NEUTRAL if no matching effect is found
         value = c;
     }
 
-    /**
-     * This constructor is for compatibility with input stream reading, which produces a stream of ints
-     *
-     * @param i The int given by an input stream
-     */
+    // Overloaded constructor to handle input as an integer, commonly used for stream reading
     public NestableCharacter(int i) {
-        this((char) i);
+        this((char) i);  // Cast the integer to a character and delegate to the main constructor
     }
 
-    /**
-     * A NestableCharacter matches another NestableCharacter if they have matching (i.e. inverse)
-     * effects (OPEN+CLOSE or CLOSE+OPEN) and their characters are complementary as defined in
-     * mSyntaxPairs.
-     *
-     * @param other The other Nestable object
-     * @return True if other is NestableCharacter, has a matching effect, and has a complementary value
-     */
+    // Defines matching logic specific to NestableCharacter based on character pairs and effects
     @Override
     public boolean matches(Nestable other) {
+        // Ensure 'other' is a NestableCharacter, has matching effects, and is a complementary pair
         if (other == null || !(other instanceof NestableCharacter) || !this.effect.matches(other.effect))
             return false;
 
+        // Check if the characters form a complementary pair using the syntax map
         var otherValue = ((NestableCharacter) other).value;
         return value == mSyntaxPairs.getOrDefault(otherValue, otherValue);
     }
 
+    // Custom equality logic for NestableCharacter, comparing only the character values
     @Override
     protected boolean innerEquals(Object other) {
         return other instanceof NestableCharacter && value == ((NestableCharacter) other).value;
     }
 
+    // Provides a unique hash code based on the character value
     @Override
     public int hashCode() {
         return Character.hashCode(value);
     }
 
+    // Returns a string representation of the NestableCharacter, showing its character and effect
     @Override
     public String toString() {
         return "'" + value + "':" + effect;
     }
 
-    /**
-     * This function reads a file into a Queue of NestableCharacter
-     */
+    // Reads characters from a file and converts them to a queue of NestableCharacter instances
     public static Queue<NestableCharacter> getNestableCharactersFromFile(String filename) throws IOException {
-        Queue<NestableCharacter> out = new LinkedList<>();
-        FileReader in = new FileReader(filename);
+        Queue<NestableCharacter> out = new LinkedList<>();  // Queue to store parsed characters
+        FileReader in = new FileReader(filename);           // Reader for the input file
 
+        // Read each character and add as a new NestableCharacter to the queue
         while (in.ready())
             out.add(new NestableCharacter(in.read()));
-        in.close();
+        in.close();  // Close the file reader
 
-        return out;
+        return out;  // Return the queue of characters
     }
 }
